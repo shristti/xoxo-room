@@ -805,6 +805,21 @@
         </div>
       </section>
 
+      <!-- FEED SECTION (Instagram-style posts) -->
+      <section id="feed" class="feed">
+        <div class="posts">
+          <article class="post" data-images='["pic3.jpg","https://images.pexels.com/photos/2837009/pexels-photo-2837009.jpeg?auto=compress&cs=tinysrgb&w=800","https://images.pexels.com/photos/3756681/pexels-photo-3756681.jpeg?auto=compress&cs=tinysrgb&w=800"]' data-caption="A natural look and confidence.">
+            <img src="pic3.jpg" alt="Natural look feed cover" />
+          </article>
+          <article class="post" data-images='["https://images.pexels.com/photos/3760852/pexels-photo-3760852.jpeg?auto=compress&cs=tinysrgb&w=800","https://images.pexels.com/photos/3760853/pexels-photo-3760853.jpeg?auto=compress&cs=tinysrgb&w=800","https://images.pexels.com/photos/3760854/pexels-photo-3760854.jpeg?auto=compress&cs=tinysrgb&w=800"]' data-caption="Red lips & dangerous nights.">
+            <img src="https://images.pexels.com/photos/3760852/pexels-photo-3760852.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Red lips feed cover" />
+          </article>
+          <article class="post" data-images='["https://images.pexels.com/photos/3738083/pexels-photo-3738083.jpeg?auto=compress&cs=tinysrgb&w=800","https://images.pexels.com/photos/3756683/pexels-photo-3756683.jpeg?auto=compress&cs=tinysrgb&w=800","https://images.pexels.com/photos/4148861/pexels-photo-4148861.jpeg?auto=compress&cs=tinysrgb&w=800"]' data-caption="Mirror selfies and secrets.">
+            <img src="https://images.pexels.com/photos/3738083/pexels-photo-3738083.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Mirror selfies feed cover" />
+          </article>
+        </div>
+      </section>
+
       <!-- GALLERY 1 -->
       <section id="gallery1">
         <div class="section-header">
@@ -826,7 +841,7 @@
           <article class="photo-card">
             <!-- Use the user-uploaded photo for the first card -->
             <img
-              src="pic%203.jpg"
+              src="pic3.jpg"
               alt="Portrait in black top"
             />
             <div class="photo-meta">
@@ -1042,6 +1057,17 @@
       <span>Built in black, red & gold, sprinkled with <span class="heart">♥</span>.</span>
       <span>Rule: what happens in the XOXO Room stays in the XOXO Room.</span>
     </footer>
+  </div>
+
+  <!-- INSTAGRAM STYLE MODAL -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <img class="modal-image" src="" alt="Post image" />
+      <div class="modal-caption"></div>
+      <button class="modal-prev" aria-label="Previous">&#8249;</button>
+      <button class="modal-next" aria-label="Next">&#8250;</button>
+    </div>
   </div>
 
   <!-- Removed inline password and animation script as functionality is now handled via external script.min.js -->
