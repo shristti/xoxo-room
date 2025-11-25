@@ -679,8 +679,10 @@
 
     .feed .posts {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 18px;
+      /* Force a three-column layout where possible, gracefully wrapping on smaller screens */
+      /* Arrange exactly three posts per row on larger screens by increasing the minimum width. This creates a bold, magazine-like grid akin to do-undo.com. */
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 26px;
     }
 
     .feed .post {
