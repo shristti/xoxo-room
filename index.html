@@ -4,14 +4,13 @@
   <meta charset="UTF-8" />
   <title>XOXO Secret Room</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- External stylesheet for improved caching and performance -->
+  <!-- External stylesheet for improved caching and performance -->
   <link rel="stylesheet" href="style.min.css" />
   <!-- SEO meta tags -->
   <meta name="description" content="Secret Room – black, red and gold password-protected landing page for private viewing." />
   <meta name="keywords" content="secret room, xoxo, private landing page, black red gold, romantic landing page, password protected" />
   <meta name="author" content="XOXO Room" />
-<style>
+  <!-- <style>
     :root {
       --bg: #050509;
       --red: #ff2b5c;
@@ -685,7 +684,7 @@
         height: 180px;
       }
     }
-  </style>
+  </style> -->
 </head>
 <body class="locked">
   <!-- LOCK SCREEN -->
@@ -1043,65 +1042,8 @@
       <span>Rule: what happens in the XOXO Room stays in the XOXO Room.</span>
     </footer>
   </div>
-<s<cript>
-    // CHANGE THIS PASSWORD TO WHATEVER YOU WANT
-    const SECRET_PASSWORD = "ifoyou"; // custom password from user
 
-    const form = document.getElementById("lockForm");
-    const passwordInput = document.getElementById("passwordInput");
-    const errorBox = document.getElementById("lockError");
-
-    // If already unlocked before, remember via localStorage
-    if (localStorage.getItem("xoxoRoomUnlocked") === "true") {
-      document.body.classList.remove("locked");
-      document.body.classList.add("unlocked");
-    }
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const value = passwordInput.value.trim();
-      if (!value) {
-        errorBox.textContent = "whisper something at least ;)";
-        return;
-      }
-      if (value === SECRET_PASSWORD) {
-        document.body.classList.remove("locked");
-        document.body.classList.add("unlocked");
-        errorBox.textContent = "";
-        localStorage.setItem("xoxoRoomUnlocked", "true");
-      } else {
-        errorBox.textContent = "mmm, that’s not it. try again, lover.";
-        passwordInput.value = "";
-      }
-    });
-
-    // Smooth scroll for nav
-    document.querySelectorAll("nav a[data-scroll]").forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute("data-scroll"));
-        if (!target) return;
-        target.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-    });
-
-    // Fade-in on scroll
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.18 }
-    );
-
-    document.querySelectorAll("main section").forEach((section) => {
-      observer.observe(section);
-    });
-  </script>
-
+  <!-- Removed inline password and animation script as functionality is now handled via external script.min.js -->
   <script src="script.min.js"></script>
-</body>
+  </body>
 </html>
