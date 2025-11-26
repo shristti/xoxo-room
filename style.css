@@ -656,6 +656,59 @@
       }
     }
 
+/* ------------------------------------------------------------
+   New Hero Section (inspired by DO/UNDO minimal aesthetic)
+   The top section now displays a simple, bold quote alongside
+   an illustration of red lips and nails. It maintains the
+   existing dark, red and gold colour palette while providing
+   a cleaner introduction to the page. The layout is responsive
+   so that the image stacks below the text on smaller screens.
+------------------------------------------------------------ */
+
+.hero-new {
+  padding: 100px 18px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  min-height: 70vh;
+}
+
+.hero-new-inner {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  max-width: 1120px;
+}
+
+.hero-new-title {
+  font-size: clamp(2rem, 4.5vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+/* The lips illustration anchors the quote visually. Adjust
+   size constraints to keep it proportional across breakpoints. */
+.hero-lips {
+  width: clamp(140px, 20vw, 280px);
+  height: auto;
+  flex-shrink: 0;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+}
+
+/* Stack the text above the image on narrow screens for better
+   readability. Centre-align the text and ensure adequate spacing. */
+@media (max-width: 780px) {
+  .hero-new-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .hero-lips {
+    margin-top: 28px;
+  }
+}
+
     @media (max-width: 480px) {
       .lock-card {
         padding: 24px 18px 22px;
