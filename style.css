@@ -686,6 +686,9 @@
   font-weight: 700;
   line-height: 1.2;
   color: var(--text);
+  /* Prevent the quote from wrapping into multiple lines on wider screens so the full message stays together.
+     When the viewport is narrow, we'll override this to allow wrapping. */
+  white-space: nowrap;
 }
 
 /* The lips illustration anchors the quote visually. Adjust
@@ -706,6 +709,10 @@
   }
   .hero-lips {
     margin-top: 28px;
+  }
+  /* Allow wrapping on narrow screens so the text remains readable */
+  .hero-new-title {
+    white-space: normal;
   }
 }
 
