@@ -682,14 +682,13 @@
 }
 
 .hero-new-title {
-  font-size: clamp(2rem, 4.5vw, 4.2rem);
+  font-size: 52px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.05;   /* smaller gap between lines */
   color: var(--text);
-  /* Prevent the quote from wrapping into multiple lines on wider screens so the full message stays together.
-     When the viewport is narrow, we'll override this to allow wrapping. */
-  white-space: nowrap;
+  white-space: normal;  /* allows clean two lines */
 }
+
 
 /* The lips illustration anchors the quote visually. Adjust
    size constraints to keep it proportional across breakpoints. */
