@@ -947,6 +947,9 @@ html {
 }
 /* Make bottom kiss section always visible (override base section styles) */
 .xoxo-intimacy {
-  opacity: 1;
-  transform: translateY(0);
+  padding: 80px 0 60px;
+  opacity: 1;                 /* override default hidden sections */
+  transform: translateY(0);   /* no slide-down offset */
+}
+
 }
