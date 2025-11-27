@@ -679,13 +679,14 @@
 .hero-new-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* text left, lips right */
+  justify-content: space-between;
   gap: 40px;
-  max-width: 1120px;              /* same width as the carousel/container */
+  max-width: 1120px;
   width: 100%;
-  padding: 0 18px;                /* same side padding as the photos section */
-  margin: 0 auto;                 /* center the whole block */
+  padding: 0 18px;
+  margin: 0 auto;
 }
+
 
 
 .hero-new-title {
