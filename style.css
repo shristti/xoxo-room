@@ -953,3 +953,127 @@ html {
 }
 
 }
+
+/* ---------- Instagram-style modal viewer ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  background: #050509;
+  border-radius: 26px;
+  padding: 16px 16px 14px;
+  max-width: 520px;
+  width: 92%;
+  box-shadow: 0 22px 45px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-image {
+  width: 100%;
+  max-height: 70vh;
+  border-radius: 20px;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.modal-prev,
+.modal-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.modal-prev {
+  left: 10px;
+}
+
+.modal-next {
+  right: 10px;
+}
+
+.modal-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-like-btn {
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+
+.heart-icon {
+  color: var(--muted);
+  font-size: 1.1rem;
+  transition: transform 0.12s ease, color 0.12s ease;
+}
+
+.modal-like-btn.liked .heart-icon {
+  color: var(--red-soft);
+  transform: scale(1.15);
+}
+
+.modal-like-count {
+  color: var(--muted);
+}
+
+.modal-caption {
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* small screens */
+@media (max-width: 600px) {
+  .modal-content {
+    max-width: 94%;
+  }
+}
