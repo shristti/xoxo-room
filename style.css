@@ -695,6 +695,7 @@ html {
 
 
 
+
 .hero-new-title {
   font-size: 52px;
   font-weight: 700;
@@ -710,7 +711,7 @@ html {
 /* The lips illustration anchors the quote visually. Adjust
    size constraints to keep it proportional across breakpoints. */
 .hero-lips {
-  width: clamp(140px, 18vw, 260px);
+  width: clamp(140px, 16vw, 230px);
   height: auto;
   flex-shrink: 0;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
