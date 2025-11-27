@@ -668,7 +668,7 @@
 ------------------------------------------------------------ */
 
 .hero-new {
-  padding: 100px 0 80px;          /* no side padding here */
+  padding: 100px 0 80px;          /* remove side padding here */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -679,12 +679,12 @@
 .hero-new-inner {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* text left, lips right */
   gap: 40px;
-  max-width: 1120px;              /* same width as feed/cards */
+  max-width: 1120px;              /* same width as the carousel/container */
   width: 100%;
-  padding: 0 18px;                /* same inner padding as below section */
+  padding: 0 18px;                /* same side padding as the photos section */
   margin: 0 auto;                 /* center the whole block */
-  justify-content: space-between; /* text left, lips right, inside that width */
 }
 
 
@@ -708,6 +708,7 @@
   flex-shrink: 0;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
 }
+
 
 
 /* Stack the text above the image on narrow screens for better
