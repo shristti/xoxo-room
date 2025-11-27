@@ -19,16 +19,18 @@
       padding: 0;
     }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #200016 0, #050509 45%, #000 100%);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-    }
+   body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #200016 0, #050509 45%, #000 100%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
 
     body.locked .site-wrapper {
       display: none;
@@ -666,7 +668,7 @@
 ------------------------------------------------------------ */
 
 .hero-new {
-  padding: 100px 18px 80px;
+  padding: 100px 18px 80px;        /* small edge padding = that “negative” tight look */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -679,15 +681,20 @@
   align-items: center;
   gap: 40px;
   max-width: 1120px;
+  width: 100%;
+  justify-content: space-between;  /* text on left, lips on right, nicely balanced */
 }
 
 .hero-new-title {
   font-size: 52px;
   font-weight: 700;
-  line-height: 1.05;   /* smaller gap between lines */
+  line-height: 1.05;               /* tight stacking between the two lines */
   color: var(--text);
-  white-space: normal;  /* allows clean two lines */
+  white-space: normal;             /* allow wrapping if needed */
+  margin: 0;
+  max-width: 640px;                /* keeps text block compact & visually pleasing */
 }
+
 
 
 /* The lips illustration anchors the quote visually. Adjust
