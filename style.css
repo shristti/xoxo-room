@@ -283,6 +283,13 @@ html {
       opacity: 1;
       transform: translateY(0);
     }
+/* Global page container (used for hero + feed) */
+.page-container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 0 18px;
+  margin: 0 auto;
+}
 
     /* HERO */
 
