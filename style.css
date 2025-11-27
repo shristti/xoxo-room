@@ -945,3 +945,8 @@ html {
     max-width: 100%;
   }
 }
+/* Make bottom kiss section always visible (override base section styles) */
+.xoxo-intimacy {
+  opacity: 1;
+  transform: translateY(0);
+}
