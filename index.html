@@ -844,8 +844,102 @@
 
 
 
-  <!-- Removed inline password and animation script as functionality is now handled via external script.min.js -->
+   <!-- Removed inline password and animation script as functionality is now handled via external script.min.js -->
   <script src="script.min.js"></script>
+
+  <!-- Instagram-style gallery logic -->
+  <script>
+    (function () {
+      const posts = document.querySelectorAll('.post');
+      const modal = document.getElementById('modal');
+      if (!modal || posts.length === 0) return;
+
+      const imgEl = modal.querySelector('.modal-image');
+      const captionEl = modal.querySelector('.modal-caption');
+      const closeBtn = modal.querySelector('.modal-close');
+      const prevBtn = modal.querySelector('.modal-prev');
+      const nextBtn = modal.querySelector('.modal-next');
+      const likeBtn = modal.querySelector('.modal-like-btn');
+      const likeCountEl = modal.querySelector('.modal-like-count');
+
+      let currentImages = [];
+      let currentIndex = 0;
+      let currentPost = null;
+      const likeState = new WeakMap(); // per-post memory (not persisted)
+
+      function openModal(post) {
+        currentPost = post;
+        try {
+          currentImages = JSON.parse(post.dataset.images || '[]');
+        } catch (e) {
+          currentImages = [];
+        }
+        if (!Array.isArray(currentImages) || currentImages.length === 0) {
+          currentImages = [post.querySelector('img').src];
+        }
+        currentIndex = 0;
+        const caption = post.dataset.caption || '';
+        imgEl.src = currentImages[0];
+        captionEl.textContent = caption;
+
+        const state = likeState.get(post) || { liked: false, count: 0 };
+        updateLikeUI(state);
+
+        modal.classList.add('open');
+      }
+
+      function updateLikeUI(state) {
+        likeBtn.classList.toggle('liked', state.liked);
+        const countText = state.count === 1 ? '1 like' : state.count + ' likes';
+        likeCountEl.textContent = countText;
+      }
+
+      function showImage(index) {
+        if (!currentImages.length) return;
+        if (index < 0) index = currentImages.length - 1;
+        if (index >= currentImages.length) index = 0;
+        currentIndex = index;
+        imgEl.src = currentImages[currentIndex];
+      }
+
+      posts.forEach((post) => {
+        post.addEventListener('click', () => openModal(post));
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('open');
+        }
+      });
+
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+      likeBtn.addEventListener('click', () => {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+        if (state.liked) {
+          state.liked = false;
+          state.count = Math.max(0, state.count - 1);
+        } else {
+          state.liked = true;
+          state.count += 1;
+        }
+        likeState.set(currentPost, state);
+        updateLikeUI(state);
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') modal.classList.remove('open');
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+        if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      });
+    })();
+  </script>
   </body>
 </html>
-
