@@ -902,3 +902,46 @@ html {
     .modal-close:hover {
       background: rgba(0,0,0,0.6);
     }
+/* INTIMATE KISS BOTTOM SECTION */
+.xoxo-intimacy {
+  padding: 80px 0 60px;
+}
+
+.intimacy-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.intimacy-quote {
+  font-size: clamp(1.4rem, 1vw + 1rem, 1.8rem);
+  line-height: 1.4;
+  color: var(--text);      /* white, like hero main text */
+  margin: 0;
+  max-width: 640px;
+}
+
+.intimacy-quote span {
+  color: var(--gold);      /* gold, like hero highlight */
+}
+
+.intimacy-img {
+  width: clamp(220px, 28vw, 360px);
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Mobile layout */
+@media (max-width: 780px) {
+  .intimacy-inner {
+    flex-direction: column-reverse;
+    text-align: center;
+  }
+
+  .intimacy-quote {
+    max-width: 100%;
+  }
+}
