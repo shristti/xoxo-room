@@ -668,7 +668,7 @@
 ------------------------------------------------------------ */
 
 .hero-new {
-  padding: 100px 18px 80px;        /* small edge padding = that “negative” tight look */
+  padding: 100px 0 80px;          /* no side padding here */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -680,10 +680,13 @@
   display: flex;
   align-items: center;
   gap: 40px;
-  max-width: 1120px;
+  max-width: 1120px;              /* same width as feed/cards */
   width: 100%;
-  justify-content: space-between;  /* text on left, lips on right, nicely balanced */
+  padding: 0 18px;                /* same inner padding as below section */
+  margin: 0 auto;                 /* center the whole block */
+  justify-content: space-between; /* text left, lips right, inside that width */
 }
+
 
 .hero-new-title {
   font-size: 52px;
