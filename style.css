@@ -742,7 +742,13 @@
         height: 180px;
       }
     }
-
+/* UNIVERSAL PAGE CONTAINER — matches the hero section width */
+.container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 0 18px;
+  margin: 0 auto;
+}
     /* FEED STYLES */
     .feed {
       margin-top: 50px;
