@@ -940,14 +940,13 @@ html {
 }
 
 .intimacy-quote {
-  font-family: var(--font-serif);
-  font-weight: 800;
-  font-size: clamp(2.2rem, 3.6vw, 4rem);   /* same as hero */
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--text);                       /* white */
+ font-size: 52px;
+  font-weight: 700;
+  line-height: 1.05;               /* tight stacking between the two lines */
+  color: var(--text);
+  white-space: normal;             /* allow wrapping if needed */
   margin: 0;
-  max-width: 600px;                         /* optional: matches hero feeling */
+  max-width: 640px;                /* keeps text block compact & visually pleasing */
 }
 
 .intimacy-quote span {
