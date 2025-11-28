@@ -763,7 +763,8 @@ html {
 .container {
   max-width: 1120px;
   width: 100%;
-  padding: 0 18px;
+   padding-left: 10px;
+  padding-right: 10px;
   margin: 0 auto;
 }
     /* FEED STYLES */
@@ -790,7 +791,7 @@ html {
       background: var(--card);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       /* Maintain a square aspect ratio for feed posts */
-      aspect-ratio: 1 / 1;
+     aspect-ratio: 1.25 / 1;
     }
 
 /* Caption text at the bottom of each grid card (uses data-caption) */
@@ -1170,21 +1171,22 @@ html {
     margin-top: 24px;
   }
 
-  .feed .posts {
-    grid-template-columns: repeat(3, minmax(0, 1fr));  /* 3 across */
-    gap: 4px;                                          /* tiny gaps */
-  }
+ /* Larger Instagram-style grid on mobile */
+.feed .posts {
+  grid-template-columns: repeat(3, 1fr);       /* still 3 across */
+  gap: 8px;                                    /* more spacing */
+}
 
-  .feed .post {
-    border-radius: 10px;
-    box-shadow: none;
-    border: none;
-  }
+.feed .post {
+  aspect-ratio: 0.9 / 1;                        /* taller posts = bigger feeling */
+  border-radius: 14px;
+}
 
-  .feed .post::after {
-    padding: 4px 6px 6px;
-    font-size: 0.62rem;
-  }
+.feed .post img {
+  height: 100%;
+  object-fit: cover;
+}
+
 
   /* Bottom intimacy section: stack and shrink nicely */
   .xoxo-intimacy {
