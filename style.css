@@ -1135,3 +1135,75 @@ html {
     opacity: 0;
   }
 }
+
+/* ====== MOBILE LAYOUT (smartphones) ====== */
+@media (max-width: 768px) {
+
+  /* Header pill a bit tighter */
+  header {
+    padding: 6px 12px;
+    top: 6px;
+  }
+
+  /* HERO: stack text + lips, reduce empty space */
+  .hero-new {
+    padding: 24px 0 24px;     /* less top/bottom gap */
+  }
+
+  .hero-new-inner {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .hero-new-title {
+    font-size: clamp(1.7rem, 7vw, 2.3rem);
+  }
+
+  .hero-lips {
+    width: clamp(160px, 42vw, 220px);
+  }
+
+  /* GALLERY: 3-column Insta grid */
+  .feed {
+    margin-top: 24px;
+  }
+
+  .feed .posts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));  /* 3 across */
+    gap: 4px;                                          /* tiny gaps */
+  }
+
+  .feed .post {
+    border-radius: 10px;
+    box-shadow: none;
+    border: none;
+  }
+
+  .feed .post::after {
+    padding: 4px 6px 6px;
+    font-size: 0.62rem;
+  }
+
+  /* Bottom intimacy section: stack and shrink nicely */
+  .xoxo-intimacy {
+    padding: 32px 0 40px;
+  }
+
+  .intimacy-inner {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .intimacy-quote {
+    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    max-width: 100%;
+  }
+
+  .intimacy-img {
+    width: clamp(180px, 55vw, 240px);
+  }
+}
