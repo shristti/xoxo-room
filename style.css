@@ -195,7 +195,7 @@ html {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 14px 14px;
+      padding: 8px 16px; /* thinner height */
       border-radius: 999px;
       background: rgba(5, 5, 11, 0.9);
       border: 1px solid rgba(255,255,255,0.06);
@@ -210,6 +210,14 @@ html {
       align-items: center;
       gap: 10px;
     }
+
+.header-message {
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+}
 
     .brand-badge {
       width: 28px;
@@ -679,12 +687,12 @@ html {
 ------------------------------------------------------------ */
 
 .hero-new {
-  padding: 100px 0 80px;          /* remove side padding here */
+  padding: 40px 0 40px;   /* much tighter top & bottom */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: left;
-  min-height: 70vh;
+  min-height: auto;       /* no forced tall height */
 }
 
 .hero-new-inner {
@@ -759,9 +767,10 @@ html {
   margin: 0 auto;
 }
     /* FEED STYLES */
-    .feed {
-      margin-top: 50px;
-    }
+  .feed {
+      margin-top: 30px;
+}
+
 
     .feed .posts {
       display: grid;
