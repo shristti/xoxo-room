@@ -917,30 +917,27 @@
         });
       }
 
-    function showImage(index) {
-  if (!currentImages.length) return;
+      // Smooth fade when changing images
+      function showImage(index) {
+        if (!currentImages.length) return;
 
-  const len = currentImages.length;
-  if (index < 0) index = len - 1;
-  if (index >= len) index = 0;
+        const len = currentImages.length;
+        if (index < 0) index = len - 1;
+        if (index >= len) index = 0;
 
-  currentIndex = index;
+        currentIndex = index;
 
-  // Fade-out animation
-  imgEl.classList.add('fade-out');
+        imgEl.classList.add('fade-out');
 
-  setTimeout(() => {
-    imgEl.src = currentImages[currentIndex];
-    imgEl.classList.remove('fade-out');
-    imgEl.classList.add('fade-in');
+        setTimeout(() => {
+          imgEl.src = currentImages[currentIndex];
+          imgEl.classList.remove('fade-out');
+          imgEl.classList.add('fade-in');
+          setTimeout(() => imgEl.classList.remove('fade-in'), 250);
+        }, 200);
 
-    // remove fade-in after animation completes
-    setTimeout(() => imgEl.classList.remove('fade-in'), 250);
-  }, 200);
-
-  preloadNeighbors();
-}
-
+        preloadNeighbors();
+      }
 
       function openModal(post) {
         currentPost = post;
@@ -981,6 +978,21 @@
         setTimeout(() => heart.remove(), 650);
       }
 
+      // Like + big heart combined in one helper
+      function handleLikeWithHeart() {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+
+        if (!state.liked) {
+          state.liked = true;
+          state.count += 1;
+          likeState.set(currentPost, state);
+          updateLikeUI(state);
+        }
+        showHeartBurst();
+      }
+
+      // Open modal when clicking any grid post
       posts.forEach((post) => {
         post.addEventListener('click', () => openModal(post));
       });
@@ -999,44 +1011,33 @@
       nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
       // Click on small heart button
-    likeBtn.addEventListener('click', () => {
-  if (!currentPost) return;
-
-  const state = likeState.get(currentPost) || { liked: false, count: 0 };
-
-  if (!state.liked) {
-    // like it
-    state.liked = true;
-    state.count += 1;
-    showHeartBurst(); // 🔥 BIG HEART ANIMATION
-  } else {
-    // unlike
-    state.liked = false;
-    state.count = Math.max(0, state.count - 1);
-  }
-
-  likeState.set(currentPost, state);
-  updateLikeUI(state);
-});
-
-
-      // Double-tap anywhere on modal content = like + big heart
-      modalContent.addEventListener('dblclick', () => {
+      likeBtn.addEventListener('click', () => {
         if (!currentPost) return;
         const state = likeState.get(currentPost) || { liked: false, count: 0 };
-        if (!state.liked) {
-          state.liked = true;
-          state.count += 1;
+
+        if (state.liked) {
+          // Unlike
+          state.liked = false;
+          state.count = Math.max(0, state.count - 1);
           likeState.set(currentPost, state);
           updateLikeUI(state);
+        } else {
+          // Like + big heart
+          handleLikeWithHeart();
         }
-        showHeartBurst();
       });
 
-      // Touch swipe on image to go next/prev
+      // Desktop double-click support (mouse)
+      modalContent.addEventListener('dblclick', (e) => {
+        e.preventDefault();
+        handleLikeWithHeart();
+      });
+
+      // ---- TOUCH: SWIPE + DOUBLE-TAP ON IMAGE ----
       let touchStartX = 0;
       let touchStartY = 0;
       let touchStartTime = 0;
+      let lastTapTime = 0;
 
       imgEl.addEventListener(
         'touchstart',
@@ -1057,19 +1058,38 @@
           const dy = t.clientY - touchStartY;
           const dt = Date.now() - touchStartTime;
 
-          // quick mostly-horizontal swipe
-          if (dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+          const isSwipe =
+            dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy);
+
+          const isTap =
+            Math.abs(dx) < 10 && Math.abs(dy) < 10 && dt < 300;
+
+          // 1) swipe left/right → change image
+          if (isSwipe) {
             if (dx < 0) {
-              showImage(currentIndex + 1); // swipe left = next
+              showImage(currentIndex + 1); // left = next
             } else {
-              showImage(currentIndex - 1); // swipe right = prev
+              showImage(currentIndex - 1); // right = prev
+            }
+            return;
+          }
+
+          // 2) tap / double-tap
+          if (isTap) {
+            const now = Date.now();
+            if (now - lastTapTime < 300) {
+              // Double-tap detected
+              handleLikeWithHeart();
+              lastTapTime = 0; // reset
+            } else {
+              lastTapTime = now; // first tap
             }
           }
         },
         { passive: true }
       );
 
-      // Prevent background from moving when touching modal
+      // Prevent background from moving when touching modal overlay
       modal.addEventListener(
         'touchmove',
         (e) => {
@@ -1086,5 +1106,7 @@
       });
     })();
   </script>
+</body>
+</html>
 
 
