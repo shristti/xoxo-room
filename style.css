@@ -1166,26 +1166,34 @@ html {
     width: clamp(160px, 42vw, 220px);
   }
 
-  /* GALLERY: 3-column Insta grid */
+   /* GALLERY: 2-column grid on mobile */
   .feed {
     margin-top: 24px;
   }
 
- /* Larger Instagram-style grid on mobile */
-.feed .posts {
-  grid-template-columns: repeat(3, 1fr);       /* still 3 across */
-  gap: 8px;                                    /* more spacing */
-}
+  .feed .posts {
+    grid-template-columns: repeat(2, 1fr);  /* 2 across */
+    gap: 10px;
+  }
 
-.feed .post {
-  aspect-ratio: 0.9 / 1;                        /* taller posts = bigger feeling */
-  border-radius: 14px;
-}
+  .feed .post {
+    aspect-ratio: 1 / 1;       /* clean square */
+    border-radius: 14px;
+    box-shadow: none;
+    border: none;
+  }
 
-.feed .post img {
-  height: 100%;
-  object-fit: cover;
-}
+  .feed .post img {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Last post centered on its own row */
+  .feed .post:last-child {
+    grid-column: 1 / -1;       /* span both columns */
+    max-width: 70%;
+    justify-self: center;
+  }
 
 
   /* Bottom intimacy section: stack and shrink nicely */
