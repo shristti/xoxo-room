@@ -1272,3 +1272,24 @@ body.modal-open {
     font-size: 16px;
   }
 }
+/* Remove ugly tap/active highlight on modal buttons (arrows + close) */
+.modal-close,
+.modal-prev,
+.modal-next {
+  outline: none;
+  border: none;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent; /* iOS tap highlight */
+}
+
+/* Also remove focus and active background/outline */
+.modal-close:focus,
+.modal-close:active,
+.modal-prev:focus,
+.modal-prev:active,
+.modal-next:focus,
+.modal-next:active {
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+}
