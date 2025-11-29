@@ -24,7 +24,12 @@ html {
   max-width: 100%;
   overflow-x: hidden;
   overscroll-behavior: none;
+
+  /* FIX: Make modal background always dark */
+  background: radial-gradient(circle at top, #200016 0, #050509 45%, #000 100%);
+  background-color: #050509; /* solid fallback for safety */
 }
+
 
 
    body {
