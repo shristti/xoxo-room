@@ -889,6 +889,18 @@ body.modal-open {
       object-fit: contain;
       border-radius: var(--radius-md);
     }
+.modal-image {
+  transition: opacity 0.25s ease-in-out;
+  opacity: 1;
+}
+
+.modal-image.fade-out {
+  opacity: 0;
+}
+
+.modal-image.fade-in {
+  opacity: 1;
+}
 
     .modal-caption {
       font-size: 0.9rem;
