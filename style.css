@@ -20,10 +20,12 @@
     }
 html {
   -webkit-text-size-adjust: 100%;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
-  overflow-x: hidden;
-}
 
    body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
@@ -994,8 +996,6 @@ body.modal-open {
   padding: 80px 0 60px;
   opacity: 1;                 /* override default hidden sections */
   transform: translateY(0);   /* no slide-down offset */
-}
-
 }
 
 /* ---------- Instagram-style modal viewer ---------- */
