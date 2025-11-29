@@ -31,9 +31,22 @@ html {
   display: flex;
   align-items: stretch;
   justify-content: center;
+   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  overscroll-behavior: none;
 }
 
+/* Lock background when modal is open */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+.modal {
+  touch-action: none; /* prevent browser's own panning/scrolling on the overlay */
+}
 
     body.locked .site-wrapper {
       display: none;
