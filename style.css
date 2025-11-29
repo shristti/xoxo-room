@@ -19,6 +19,9 @@
       padding: 0;
     }
 html {
+  -webkit-text-size-adjust: 100%;
+}
+
   overflow-x: hidden;
 }
 
@@ -1228,5 +1231,15 @@ body.modal-open {
 
   .intimacy-img {
     width: clamp(180px, 55vw, 240px);
+  }
+}
+/* Prevent iOS from zooming when focusing inputs */
+@media (max-width: 768px) {
+  input[type="password"],
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"] {
+    font-size: 16px;
   }
 }
