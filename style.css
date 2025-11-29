@@ -1184,23 +1184,25 @@ body.modal-open {
     padding: 24px 0 24px;     /* less top/bottom gap */
   }
 
-   .hero-new-inner {
-    flex-direction: column-reverse;
-    align-items: flex-start;   /* left edge */
-    text-align: left;          /* left align text */
-    gap: 16px;
-    padding: 0 20px;           /* little side padding on phone */
-  }
+  .hero-new-inner {
+  flex-direction: column-reverse;
+  align-items: center;       /* center only images */
+  text-align: left;          /* but keep text left */
+  gap: 6px;                  /* <<< REDUCED from 16px */
+  padding: 0 20px;
+}
 
-  .hero-new-title {
-    font-size: clamp(1.7rem, 7vw, 2.3rem);
-    max-width: 22rem;          /* keeps the block from stretching too wide */
-  }
+.hero-new-title {
+  font-size: clamp(1.7rem, 7vw, 2.3rem);
+  max-width: 22rem;
+  text-align: left;
+  align-self: flex-start;    /* text stays left even if container is centered */
+}
 
-
-  .hero-lips {
-    width: clamp(160px, 42vw, 220px);
-  }
+.hero-lips {
+  margin-top: -10px;         /* <<< pulls lips closer upward */
+  margin-bottom: 0;          /* <<< no big space under lips */
+}
 
    /* GALLERY: 2-column grid on mobile */
   .feed {
@@ -1237,18 +1239,18 @@ body.modal-open {
     padding: 32px 0 40px;
   }
 
-  .intimacy-inner {
-    flex-direction: column-reverse;
-    align-items: flex-start;   /* left edge */
-    text-align: left;          /* left align text */
-    gap: 16px;
-    padding: 0 20px;
-  }
+ .intimacy-inner {
+  flex-direction: column-reverse;
+  align-items: center;      /* center the PNG */
+  text-align: left;
+  padding: 0 20px;
+  gap: 6px;                 /* tighter spacing */
+}
 
-  .intimacy-quote {
-    font-size: clamp(1.6rem, 7vw, 2.2rem);
-    max-width: 22rem;          /* similar width as hero for consistency */
-  }
+.intimacy-quote {
+  align-self: flex-start;   /* keep text left */
+  max-width: 22rem;
+}
 
 
   .intimacy-img {
