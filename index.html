@@ -917,25 +917,30 @@
         });
       }
 
-      function showImage(index) {
-        if (!currentImages.length) return;
+    function showImage(index) {
+  if (!currentImages.length) return;
 
-        const len = currentImages.length;
-        if (index < 0) index = len - 1;
-        if (index >= len) index = 0;
-        currentIndex = index;
+  const len = currentImages.length;
+  if (index < 0) index = len - 1;
+  if (index >= len) index = 0;
 
-        // Smooth fade transition
-        imgEl.classList.add('fade-out');
-        setTimeout(() => {
-          imgEl.src = currentImages[currentIndex];
-          imgEl.classList.remove('fade-out');
-          imgEl.classList.add('fade-in');
-          setTimeout(() => imgEl.classList.remove('fade-in'), 250);
-        }, 200);
+  currentIndex = index;
 
-        preloadNeighbors();
-      }
+  // Fade-out animation
+  imgEl.classList.add('fade-out');
+
+  setTimeout(() => {
+    imgEl.src = currentImages[currentIndex];
+    imgEl.classList.remove('fade-out');
+    imgEl.classList.add('fade-in');
+
+    // remove fade-in after animation completes
+    setTimeout(() => imgEl.classList.remove('fade-in'), 250);
+  }, 200);
+
+  preloadNeighbors();
+}
+
 
       function openModal(post) {
         currentPost = post;
@@ -994,22 +999,26 @@
       nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
       // Click on small heart button
-      likeBtn.addEventListener('click', () => {
-        if (!currentPost) return;
-        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+    likeBtn.addEventListener('click', () => {
+  if (!currentPost) return;
 
-        if (!state.liked) {
-          state.liked = true;
-          state.count += 1;
-          showHeartBurst(); // show big heart even when tapping icon
-        } else {
-          state.liked = false;
-          state.count = Math.max(0, state.count - 1);
-        }
+  const state = likeState.get(currentPost) || { liked: false, count: 0 };
 
-        likeState.set(currentPost, state);
-        updateLikeUI(state);
-      });
+  if (!state.liked) {
+    // like it
+    state.liked = true;
+    state.count += 1;
+    showHeartBurst(); // 🔥 BIG HEART ANIMATION
+  } else {
+    // unlike
+    state.liked = false;
+    state.count = Math.max(0, state.count - 1);
+  }
+
+  likeState.set(currentPost, state);
+  updateLikeUI(state);
+});
+
 
       // Double-tap anywhere on modal content = like + big heart
       modalContent.addEventListener('dblclick', () => {
