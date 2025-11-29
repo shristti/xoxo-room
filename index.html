@@ -758,63 +758,63 @@
   class="post"
   data-images='["post1-1.jpg","post1-2.jpg","post1-3.jpg"]'
   data-caption="Her favorite lollipop it is🤤">
-  <img src="post1-1.jpg" alt="Album 1 cover" />
+  <img src="post1-1.jpg" alt="Album 1 cover" loading="lazy" />
 </article>
 
         <article
   class="post"
   data-images='["post2-1.jpg","post2-2.jpg","post2-3.jpg"]'
   data-caption="Shashieee milking his mommy🥺">
-  <img src="post2-1.jpg" alt="Album 2 cover" />
+  <img src="post2-1.jpg" alt="Album 2 cover" loading="lazy" />
 </article>
       
          <article
   class="post"
   data-images='["post3-1.jpg","post3-2.jpg","post3-3.jpg"]'
   data-caption="The view from the top is always worth it!🤩">
-  <img src="post3-1.jpg" alt="Post 3 cover" />
+  <img src="post3-1.jpg" alt="Post 3 cover" loading="lazy" />
 </article>
 
          <article
   class="post"
   data-images='["post4-1.jpg","post4-2.jpg","post4-3.jpg"]'
   data-caption="Wine me, dine me, 6️⃣9️⃣ me‼️">
-  <img src="post4-1.jpg" alt="Post 4 cover" />
+  <img src="post4-1.jpg" alt="Post 4 cover" loading="lazy" />
 </article>
       
 <article
   class="post"
   data-images='["post5-1.jpg","post5-2.jpg","post5-3.jpg"]'
   data-caption="The big gasp and eye roll 👀🫦">
-  <img src="post5-1.jpg" alt="Post 5 cover" />
+  <img src="post5-1.jpg" alt="Post 5 cover" loading="lazy" />
 </article>
 
         <article
   class="post"
   data-images='["post6-1.jpg","post6-2.jpg","post6-3.jpg"]'
   data-caption="Mirror mirror on the wall, tell me who is the hottest couple of them all😉">
-  <img src="post6-1.jpg" alt="Post 6 cover" />
+  <img src="post6-1.jpg" alt="Post 6 cover" loading="lazy" />
 </article>
 
          <article
   class="post"
   data-images='["post7-1.jpg","post7-2.jpg","post7-3.jpg"]'
   data-caption="I would fuck you in all the ways!❤️">
-  <img src="post7-1.jpg" alt="Post 7 cover" />
+  <img src="post7-1.jpg" alt="Post 7 cover" loading="lazy" />
 </article>
 
         <article
   class="post"
   data-images='["POST8-1.jpg","POST8-2.jpeg","POST8-3.jpg"]'
   data-caption="Shashieee's FAVORITE meal 🤤🤤🤤">
-  <img src="POST8-1.jpg" alt="Post 8 cover" />
+  <img src="POST8-1.jpg" alt="Post 8 cover" loading="lazy" />
 </article>
 
          <article
   class="post"
   data-images='["post9-1.jpg","POST9-2.jpg","post9-3.jpg"]'
   data-caption="GAG QUEEN! LOVES IT SLOPPY‼️🤤😉🫦">
-  <img src="post9-1.jpg" alt="Post 9 cover" />
+  <img src="post9-1.jpg" alt="Post 9 cover" loading="lazy" />
 </article>
 
         </div>
@@ -876,125 +876,171 @@
   <script src="script.min.js"></script>
 
   <!-- Instagram-style gallery logic -->
-<script>
-  (function () {
-    const posts = document.querySelectorAll('.post');
-    const modal = document.getElementById('modal');
-    if (!modal || posts.length === 0) return;
+  <script src="script.min.js"></script>
 
-    const imgEl = modal.querySelector('.modal-image');
-    const captionEl = modal.querySelector('.modal-caption');
-    const closeBtn = modal.querySelector('.modal-close');
-    const prevBtn = modal.querySelector('.modal-prev');
-    const nextBtn = modal.querySelector('.modal-next');
-    const likeBtn = modal.querySelector('.modal-like-btn');
-    const likeCountEl = modal.querySelector('.modal-like-count');
-    const modalContent = modal.querySelector('.modal-content');
+  <!-- Instagram-style gallery logic -->
+  <script>
+    (function () {
+      const posts = document.querySelectorAll('.post');
+      const modal = document.getElementById('modal');
+      if (!modal || posts.length === 0) return;
 
-    let currentImages = [];
-    let currentIndex = 0;
-    let currentPost = null;
-    const likeState = new WeakMap(); // per-post (not persisted)
+      const imgEl = modal.querySelector('.modal-image');
+      const captionEl = modal.querySelector('.modal-caption');
+      const closeBtn = modal.querySelector('.modal-close');
+      const prevBtn = modal.querySelector('.modal-prev');
+      const nextBtn = modal.querySelector('.modal-next');
+      const likeBtn = modal.querySelector('.modal-like-btn');
+      const likeCountEl = modal.querySelector('.modal-like-count');
+      const modalContent = modal.querySelector('.modal-content');
 
-    function openModal(post) {
-      currentPost = post;
-      try {
-        currentImages = JSON.parse(post.dataset.images || '[]');
-      } catch (e) {
-        currentImages = [];
-      }
-      if (!Array.isArray(currentImages) || currentImages.length === 0) {
-        const img = post.querySelector('img');
-        currentImages = img ? [img.src] : [];
+      let currentImages = [];
+      let currentIndex = 0;
+      let currentPost = null;
+      const likeState = new WeakMap(); // per-post (not persisted)
+
+      function updateLikeUI(state) {
+        likeBtn.classList.toggle('liked', state.liked);
+        const countText =
+          state.count === 1 ? '1 like' : state.count + ' likes';
+        likeCountEl.textContent = countText;
       }
 
-      currentIndex = 0;
-      const caption = post.dataset.caption || '';
-      imgEl.src = currentImages[0] || '';
-      captionEl.textContent = caption;
+      function preloadNeighbors() {
+        if (!currentImages.length) return;
+        const len = currentImages.length;
+        const nextIndex = (currentIndex + 1) % len;
+        const prevIndex = (currentIndex - 1 + len) % len;
+        [nextIndex, prevIndex].forEach((i) => {
+          const img = new Image();
+          img.src = currentImages[i];
+        });
+      }
 
-      const state = likeState.get(post) || { liked: false, count: 0 };
-      updateLikeUI(state);
+      function showImage(index) {
+        if (!currentImages.length) return;
+        const len = currentImages.length;
+        if (index < 0) index = len - 1;
+        if (index >= len) index = 0;
+        currentIndex = index;
+        imgEl.src = currentImages[currentIndex];
+        preloadNeighbors();   // pre-load neighbors for faster swipe
+      }
 
-      modal.classList.add('open');
-    }
+      function openModal(post) {
+        currentPost = post;
+        try {
+          currentImages = JSON.parse(post.dataset.images || '[]');
+        } catch (e) {
+          currentImages = [];
+        }
+        if (!Array.isArray(currentImages) || currentImages.length === 0) {
+          const img = post.querySelector('img');
+          currentImages = img ? [img.src] : [];
+        }
 
-    function updateLikeUI(state) {
-      likeBtn.classList.toggle('liked', state.liked);
-      const countText =
-        state.count === 1 ? '1 like' : state.count + ' likes';
-      likeCountEl.textContent = countText;
-    }
+        currentIndex = 0;
+        const caption = post.dataset.caption || '';
+        imgEl.src = currentImages[0] || '';
+        captionEl.textContent = caption;
 
-    function showImage(index) {
-      if (!currentImages.length) return;
-      if (index < 0) index = currentImages.length - 1;
-      if (index >= currentImages.length) index = 0;
-      currentIndex = index;
-      imgEl.src = currentImages[currentIndex];
-    }
+        const state = likeState.get(post) || { liked: false, count: 0 };
+        updateLikeUI(state);
 
-    function showHeartBurst() {
-      if (!modalContent) return;
-      const heart = document.createElement('div');
-      heart.className = 'modal-heart-float';
-      heart.innerHTML = '♥';
-      modalContent.appendChild(heart);
-      setTimeout(() => heart.remove(), 650);
-    }
+        preloadNeighbors();
+        modal.classList.add('open');
+      }
 
-    posts.forEach((post) => {
-      post.addEventListener('click', () => openModal(post));
-    });
+      function showHeartBurst() {
+        if (!modalContent) return;
+        const heart = document.createElement('div');
+        heart.className = 'modal-heart-float';
+        heart.innerHTML = '♥';
+        modalContent.appendChild(heart);
+        setTimeout(() => heart.remove(), 650);
+      }
 
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('open');
-    });
+      posts.forEach((post) => {
+        post.addEventListener('click', () => openModal(post));
+      });
 
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
+      closeBtn.addEventListener('click', () => {
         modal.classList.remove('open');
-      }
-    });
+      });
 
-    prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-    nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('open');
+        }
+      });
 
-    likeBtn.addEventListener('click', () => {
-      if (!currentPost) return;
-      const state = likeState.get(currentPost) || { liked: false, count: 0 };
-      // Button toggles like/unlike
-      if (state.liked) {
-        state.liked = false;
-        state.count = Math.max(0, state.count - 1);
-      } else {
-        state.liked = true;
-        state.count += 1;
-      }
-      likeState.set(currentPost, state);
-      updateLikeUI(state);
-    });
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
-    // Double-click / double-tap on the image = always "like" + big heart
-    imgEl.addEventListener('dblclick', () => {
-      if (!currentPost) return;
-      const state = likeState.get(currentPost) || { liked: false, count: 0 };
-      if (!state.liked) {
-        state.liked = true;
-        state.count += 1;
+      likeBtn.addEventListener('click', () => {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+        if (state.liked) {
+          state.liked = false;
+          state.count = Math.max(0, state.count - 1);
+        } else {
+          state.liked = true;
+          state.count += 1;
+        }
         likeState.set(currentPost, state);
         updateLikeUI(state);
-      }
-      showHeartBurst();
-    });
+      });
 
-    window.addEventListener('keydown', (e) => {
-      if (!modal.classList.contains('open')) return;
-      if (e.key === 'Escape') modal.classList.remove('open');
-      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-    });
-  })();
-</script>
-  </body>
+      // Double-click / double-tap on the image = like + big heart
+      imgEl.addEventListener('dblclick', () => {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+        if (!state.liked) {
+          state.liked = true;
+          state.count += 1;
+          likeState.set(currentPost, state);
+          updateLikeUI(state);
+        }
+        showHeartBurst();
+      });
+
+      // Touch swipe on mobile to change images
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
+
+      imgEl.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        touchStartX = t.clientX;
+        touchStartY = t.clientY;
+        touchStartTime = Date.now();
+      });
+
+      imgEl.addEventListener('touchend', (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - touchStartX;
+        const dy = t.clientY - touchStartY;
+        const dt = Date.now() - touchStartTime;
+
+        // Quick, mostly horizontal swipe
+        if (dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+          if (dx < 0) {
+            // swipe left -> next image
+            showImage(currentIndex + 1);
+          } else {
+            // swipe right -> previous image
+            showImage(currentIndex - 1);
+          }
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') modal.classList.remove('open');
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+        if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      });
+    })();
+  </script>
+</body>
 </html>
