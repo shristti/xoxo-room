@@ -1184,16 +1184,19 @@ body.modal-open {
     padding: 24px 0 24px;     /* less top/bottom gap */
   }
 
-  .hero-new-inner {
+   .hero-new-inner {
     flex-direction: column-reverse;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
+    align-items: flex-start;   /* left edge */
+    text-align: left;          /* left align text */
+    gap: 16px;
+    padding: 0 20px;           /* little side padding on phone */
   }
 
   .hero-new-title {
     font-size: clamp(1.7rem, 7vw, 2.3rem);
+    max-width: 22rem;          /* keeps the block from stretching too wide */
   }
+
 
   .hero-lips {
     width: clamp(160px, 42vw, 220px);
@@ -1229,22 +1232,24 @@ body.modal-open {
   }
 
 
-  /* Bottom intimacy section: stack and shrink nicely */
+    /* Bottom intimacy section: stack and shrink nicely */
   .xoxo-intimacy {
     padding: 32px 0 40px;
   }
 
   .intimacy-inner {
     flex-direction: column-reverse;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
+    align-items: flex-start;   /* left edge */
+    text-align: left;          /* left align text */
+    gap: 16px;
+    padding: 0 20px;
   }
 
   .intimacy-quote {
     font-size: clamp(1.6rem, 7vw, 2.2rem);
-    max-width: 100%;
+    max-width: 22rem;          /* similar width as hero for consistency */
   }
+
 
   .intimacy-img {
     width: clamp(180px, 55vw, 240px);
