@@ -1272,24 +1272,40 @@ body.modal-open {
     font-size: 16px;
   }
 }
-/* Remove ugly tap/active highlight on modal buttons (arrows + close) */
-.modal-close,
+/* FIX: Absolutely transparent arrow + close buttons (no black flash) */
 .modal-prev,
-.modal-next {
-  outline: none;
+.modal-next,
+.modal-close {
+  position: absolute;
   border: none;
-  background: transparent;
-  -webkit-tap-highlight-color: transparent; /* iOS tap highlight */
+  background: none !important;     /* No background at all */
+  -webkit-tap-highlight-color: transparent;
+  outline: none !important;
+  box-shadow: none !important;
+  color: #fff;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Also remove focus and active background/outline */
-.modal-close:focus,
-.modal-close:active,
-.modal-prev:focus,
-.modal-prev:active,
-.modal-next:focus,
-.modal-next:active {
-  outline: none;
-  background: transparent;
-  box-shadow: none;
+/* Their positions and sizes */
+.modal-prev,
+.modal-next {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 32px;
+  width: 44px;
+  height: 44px;
+}
+
+.modal-prev { left: 4px; }
+.modal-next { right: 4px; }
+
+.modal-close {
+  top: 8px;
+  right: 10px;
+  font-size: 26px;
+  width: 34px;
+  height: 34px;
 }
