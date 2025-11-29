@@ -879,189 +879,203 @@
   <script src="script.min.js"></script>
 
   <!-- Instagram-style gallery logic -->
-<script>
-  (function () {
-    const posts = document.querySelectorAll('.post');
-    const modal = document.getElementById('modal');
-    if (!modal || posts.length === 0) return;
+  <script>
+    (function () {
+      const posts = document.querySelectorAll('.post');
+      const modal = document.getElementById('modal');
+      if (!modal || posts.length === 0) return;
 
-    const imgEl = modal.querySelector('.modal-image');
-    const captionEl = modal.querySelector('.modal-caption');
-    const closeBtn = modal.querySelector('.modal-close');
-    const prevBtn = modal.querySelector('.modal-prev');
-    const nextBtn = modal.querySelector('.modal-next');
-    const likeBtn = modal.querySelector('.modal-like-btn');
-    const likeCountEl = modal.querySelector('.modal-like-count');
-    const modalContent = modal.querySelector('.modal-content');
+      const imgEl = modal.querySelector('.modal-image');
+      const captionEl = modal.querySelector('.modal-caption');
+      const closeBtn = modal.querySelector('.modal-close');
+      const prevBtn = modal.querySelector('.modal-prev');
+      const nextBtn = modal.querySelector('.modal-next');
+      const likeBtn = modal.querySelector('.modal-like-btn');
+      const likeCountEl = modal.querySelector('.modal-like-count');
+      const modalContent = modal.querySelector('.modal-content');
 
-    let currentImages = [];
-    let currentIndex = 0;
-    let currentPost = null;
-    const likeState = new WeakMap(); // per-post (not persisted)
+      let currentImages = [];
+      let currentIndex = 0;
+      let currentPost = null;
+      const likeState = new WeakMap(); // store likes per post (not permanent)
 
-    function updateLikeUI(state) {
-      likeBtn.classList.toggle('liked', state.liked);
-      const countText = state.count === 1 ? '1 like' : state.count + ' likes';
-      likeCountEl.textContent = countText;
-    }
+      function updateLikeUI(state) {
+        likeBtn.classList.toggle('liked', state.liked);
+        const countText =
+          state.count === 1 ? '1 like' : state.count + ' likes';
+        likeCountEl.textContent = countText;
+      }
 
-    function preloadNeighbors() {
-      if (!currentImages.length) return;
-      const len = currentImages.length;
-      const nextIndex = (currentIndex + 1) % len;
-      const prevIndex = (currentIndex - 1 + len) % len;
-      [nextIndex, prevIndex].forEach((i) => {
-        const img = new Image();
-        img.src = currentImages[i];
+      function preloadNeighbors() {
+        if (!currentImages.length) return;
+        const len = currentImages.length;
+        const nextIndex = (currentIndex + 1) % len;
+        const prevIndex = (currentIndex - 1 + len) % len;
+        [nextIndex, prevIndex].forEach((i) => {
+          const img = new Image();
+          img.src = currentImages[i];
+        });
+      }
+
+      function showImage(index) {
+        if (!currentImages.length) return;
+
+        const len = currentImages.length;
+        if (index < 0) index = len - 1;
+        if (index >= len) index = 0;
+        currentIndex = index;
+
+        // Smooth fade transition
+        imgEl.classList.add('fade-out');
+        setTimeout(() => {
+          imgEl.src = currentImages[currentIndex];
+          imgEl.classList.remove('fade-out');
+          imgEl.classList.add('fade-in');
+          setTimeout(() => imgEl.classList.remove('fade-in'), 250);
+        }, 200);
+
+        preloadNeighbors();
+      }
+
+      function openModal(post) {
+        currentPost = post;
+        try {
+          currentImages = JSON.parse(post.dataset.images || '[]');
+        } catch (e) {
+          currentImages = [];
+        }
+        if (!Array.isArray(currentImages) || currentImages.length === 0) {
+          const img = post.querySelector('img');
+          currentImages = img ? [img.src] : [];
+        }
+
+        currentIndex = 0;
+        const caption = post.dataset.caption || '';
+        imgEl.src = currentImages[0] || '';
+        captionEl.textContent = caption;
+
+        const state = likeState.get(post) || { liked: false, count: 0 };
+        updateLikeUI(state);
+
+        preloadNeighbors();
+        modal.classList.add('open');
+        document.body.classList.add('modal-open'); // stop background scrolling
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        document.body.classList.remove('modal-open');
+      }
+
+      function showHeartBurst() {
+        if (!modalContent) return;
+        const heart = document.createElement('div');
+        heart.className = 'modal-heart-float';
+        heart.innerHTML = '♥';
+        modalContent.appendChild(heart);
+        setTimeout(() => heart.remove(), 650);
+      }
+
+      posts.forEach((post) => {
+        post.addEventListener('click', () => openModal(post));
       });
-    }
 
-    function showImage(index) {
-      if (!currentImages.length) return;
-      const len = currentImages.length;
-      if (index < 0) index = len - 1;
-      if (index >= len) index = 0;
-      currentIndex = index;
-      imgEl.src = currentImages[currentIndex];
-      preloadNeighbors();
-    }
-
-    function openModal(post) {
-      currentPost = post;
-      try {
-        currentImages = JSON.parse(post.dataset.images || '[]');
-      } catch (e) {
-        currentImages = [];
-      }
-      if (!Array.isArray(currentImages) || currentImages.length === 0) {
-        const img = post.querySelector('img');
-        currentImages = img ? [img.src] : [];
-      }
-
-      currentIndex = 0;
-      const caption = post.dataset.caption || '';
-      imgEl.src = currentImages[0] || '';
-      captionEl.textContent = caption;
-
-      const state = likeState.get(post) || { liked: false, count: 0 };
-      updateLikeUI(state);
-
-      preloadNeighbors();
-      modal.classList.add('open');
-      document.body.classList.add('modal-open'); // lock background
-    }
-
-    function closeModal() {
-      modal.classList.remove('open');
-      document.body.classList.remove('modal-open'); // unlock background
-    }
-
-    function showHeartBurst() {
-      if (!modalContent) return;
-      const heart = document.createElement('div');
-      heart.className = 'modal-heart-float';
-      heart.innerHTML = '♥';
-      modalContent.appendChild(heart);
-      setTimeout(() => heart.remove(), 650);
-    }
-
-    posts.forEach((post) => {
-      post.addEventListener('click', () => openModal(post));
-    });
-
-    closeBtn.addEventListener('click', () => {
-      closeModal();
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
+      closeBtn.addEventListener('click', () => {
         closeModal();
-      }
-    });
+      });
 
-    prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
-    nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
 
-    likeBtn.addEventListener('click', () => {
-      if (!currentPost) return;
-      const state = likeState.get(currentPost) || { liked: false, count: 0 };
-      if (state.liked) {
-        state.liked = false;
-        state.count = Math.max(0, state.count - 1);
-      } else {
-        state.liked = true;
-        state.count += 1;
-      }
-      likeState.set(currentPost, state);
-      updateLikeUI(state);
-    });
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
 
-    // Double-tap on image = like + big heart
-    imgEl.addEventListener('dblclick', () => {
-      if (!currentPost) return;
-      const state = likeState.get(currentPost) || { liked: false, count: 0 };
-      if (!state.liked) {
-        state.liked = true;
-        state.count += 1;
+      // Click on small heart button
+      likeBtn.addEventListener('click', () => {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+
+        if (!state.liked) {
+          state.liked = true;
+          state.count += 1;
+          showHeartBurst(); // show big heart even when tapping icon
+        } else {
+          state.liked = false;
+          state.count = Math.max(0, state.count - 1);
+        }
+
         likeState.set(currentPost, state);
         updateLikeUI(state);
-      }
-      showHeartBurst();
-    });
+      });
 
-    // Touch swipe on image to navigate
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartTime = 0;
-
-    imgEl.addEventListener(
-      'touchstart',
-      (e) => {
-        const t = e.touches[0];
-        touchStartX = t.clientX;
-        touchStartY = t.clientY;
-        touchStartTime = Date.now();
-      },
-      { passive: true }
-    );
-
-    imgEl.addEventListener(
-      'touchend',
-      (e) => {
-        const t = e.changedTouches[0];
-        const dx = t.clientX - touchStartX;
-        const dy = t.clientY - touchStartY;
-        const dt = Date.now() - touchStartTime;
-
-        // quick, mostly horizontal swipe
-        if (dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-          if (dx < 0) {
-            showImage(currentIndex + 1); // swipe left -> next
-          } else {
-            showImage(currentIndex - 1); // swipe right -> prev
-          }
+      // Double-tap anywhere on modal content = like + big heart
+      modalContent.addEventListener('dblclick', () => {
+        if (!currentPost) return;
+        const state = likeState.get(currentPost) || { liked: false, count: 0 };
+        if (!state.liked) {
+          state.liked = true;
+          state.count += 1;
+          likeState.set(currentPost, state);
+          updateLikeUI(state);
         }
-      },
-      { passive: true }
-    );
+        showHeartBurst();
+      });
 
-    // Prevent background scrolling when touching inside modal
-    modal.addEventListener(
-      'touchmove',
-      (e) => {
-        e.preventDefault();
-      },
-      { passive: false }
-    );
+      // Touch swipe on image to go next/prev
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchStartTime = 0;
 
-    window.addEventListener('keydown', (e) => {
-      if (!modal.classList.contains('open')) return;
-      if (e.key === 'Escape') closeModal();
-      if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-      if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-    });
-  })();
+      imgEl.addEventListener(
+        'touchstart',
+        (e) => {
+          const t = e.touches[0];
+          touchStartX = t.clientX;
+          touchStartY = t.clientY;
+          touchStartTime = Date.now();
+        },
+        { passive: true }
+      );
+
+      imgEl.addEventListener(
+        'touchend',
+        (e) => {
+          const t = e.changedTouches[0];
+          const dx = t.clientX - touchStartX;
+          const dy = t.clientY - touchStartY;
+          const dt = Date.now() - touchStartTime;
+
+          // quick mostly-horizontal swipe
+          if (dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+            if (dx < 0) {
+              showImage(currentIndex + 1); // swipe left = next
+            } else {
+              showImage(currentIndex - 1); // swipe right = prev
+            }
+          }
+        },
+        { passive: true }
+      );
+
+      // Prevent background from moving when touching modal
+      modal.addEventListener(
+        'touchmove',
+        (e) => {
+          e.preventDefault();
+        },
+        { passive: false }
+      );
+
+      window.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('open')) return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') showImage(currentIndex + 1);
+        if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
+      });
+    })();
   </script>
-</body>
-</html>
+
 
